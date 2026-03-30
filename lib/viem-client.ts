@@ -1,6 +1,7 @@
 import { createPublicClient, http, PublicClient } from 'viem';
 import { base } from 'viem/chains';
 
+
 const RPC_URL = process.env.NEXT_PUBLIC_BASE_RPC_URL || 'https://mainnet.base.org';
 
 // Singleton public client for Base mainnet
@@ -33,12 +34,10 @@ export const RPC_ENDPOINTS = [
 ];
 
 // Create a one-off client for a specific RPC URL (used for latency pings)
+// create client for RPC url
 export function createClientForRpc(rpcUrl: string): PublicClient {
   return createPublicClient({
     chain: base,
-    transport: http(rpcUrl, {
-      timeout: 6_000,
-      retryCount: 1,
-    }),
-  });
+    transport: http(rpcUrl, { timeout: 6_000 }),
+  }) as unknown as PublicClient;
 }

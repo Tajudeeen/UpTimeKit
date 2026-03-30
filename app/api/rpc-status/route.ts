@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { checkRateLimit, getRpcStatus } from '@/lib/helpers';
-import { createClientForRpc, RPC_ENDPOINTS } from '@/lib/baseClient';
+import { createClientForRpc, RPC_ENDPOINTS } from '@/lib/viem-client';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

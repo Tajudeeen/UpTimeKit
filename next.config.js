@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    serverComponentsExternalPackages: ['viem'],
-  },
+
+  // updated key for next 16+
+  serverExternalPackages: ['viem'],
+
   async headers() {
     return [
       {

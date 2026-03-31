@@ -1,0 +1,142 @@
+# UptimeKit — Real-time Base Network Monitor
+
+A production-ready dashboard that tracks the health and uptime of the Base blockchain in real-time using onchain data via viem.
+
+## Features
+
+- **Live Metrics** — Block height, gas price, block time, TPS, base fee, tx count
+- **RPC Monitoring** — Ping 3 endpoints, track latency over time with charts
+- **Network Health Banner** — At-a-glance overall status
+- **Activity Feed** — Latest 8 blocks with gas utilization bars
+- **Toast Alerts** — Automatic notifications on status changes
+- **Real-time Polling** — Data updates every 8–10 seconds
+
+## Tech Stack
+
+| Layer | Library |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | TailwindCSS |
+| Blockchain | viem (Base mainnet) |
+| Charts | Recharts |
+| Toasts | react-hot-toast |
+| Deploy | Vercel |
+
+## Getting Started
+
+### 1. Clone & install
+
+```bash
+git clone https://github.com/yourname/uptimekit
+cd uptimekit
+npm install
+```
+
+### 2. Environment setup
+
+```bash
+cp .env.example .env.local
+# Edit .env.local — the defaults work as-is for Base mainnet
+```
+
+### 3. Run locally
+
+```bash
+npm run dev
+# Open http://localhost:3000
+```
+
+### 4. Build for production
+
+```bash
+npm run build
+npm start
+```
+
+## Deploy to Vercel
+
+### Option A — Vercel CLI (fastest)
+
+```bash
+npm install -g vercel
+vercel login
+vercel --prod
+```
+
+Set env vars when prompted:
+- `NEXT_PUBLIC_BASE_RPC_URL` = `https://mainnet.base.org`
+- `NEXT_PUBLIC_BASE_CHAIN_ID` = `8453`
+
+### Option B — Vercel Dashboard
+
+1. Push to GitHub
+2. Import repo at vercel.com/new
+3. Add environment variables in dashboard
+4. Deploy
+
+## Project Structure
+
+```
+uptimekit/
+├── app/
+│   ├── api/
+│   │   ├── metrics/route.ts      # Block data, gas, TPS
+│   │   ├── rpc-status/route.ts   # RPC ping + latency
+│   │   └── blocks/route.ts       # Latest blocks feed
+│   ├── layout.tsx                # Root layout + fonts
+│   ├── page.tsx                  # Main dashboard page
+│   └── globals.css               # Global styles
+├── components/
+│   ├── Navbar.tsx                # Sticky nav with scroll
+│   ├── Hero.tsx                  # Hero section
+│   ├── MetricsGrid.tsx           # 6-card metrics grid
+│   ├── MetricCard.tsx            # Individual stat card
+│   ├── RpcStatusPanel.tsx        # 3-column RPC status
+│   ├── LatencyChart.tsx          # Recharts area chart
+│   ├── ActivityFeed.tsx          # Latest blocks list
+│   ├── NetworkHealthBanner.tsx   # Top-level status banner
+│   ├── AlertManager.tsx          # Toast alert system
+│   └── Footer.tsx                # Footer
+├── hooks/
+│   ├── useMetrics.ts             # Polls /api/metrics
+│   ├── useRpcStatus.ts           # Polls /api/rpc-status
+│   └── useBlocks.ts              # Polls /api/blocks
+├── lib/
+│   ├── viem-client.ts            # Base mainnet client
+│   └── helpers.ts                # Formatters + rate limiter
+├── vercel.json                   # Vercel config
+└── tailwind.config.js            # Design tokens
+```
+
+## API Routes
+
+| Route | Interval | Returns |
+|---|---|---|
+| `GET /api/metrics` | 8s | Block, gas, TPS, base fee |
+| `GET /api/rpc-status` | 10s | Latency for 3 RPC endpoints |
+| `GET /api/blocks` | 8s | Last 8 blocks with gas util |
+
+All routes include:
+- In-memory rate limiting (30 req/min per IP)
+- Error handling with proper HTTP status codes
+- `Cache-Control: no-store` headers
+
+## Base Network Config
+
+```typescript
+// lib/viem-client.ts
+import { base } from 'viem/chains';
+
+const baseClient = createPublicClient({
+  chain: base,       // Chain ID: 8453
+  transport: http('https://mainnet.base.org', {
+    timeout: 8_000,
+    retryCount: 2,
+  }),
+});
+```
+
+## License
+
+MIT

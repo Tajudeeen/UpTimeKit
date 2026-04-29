@@ -19,29 +19,11 @@ export const metadata: Metadata = {
   title: 'UptimeKit — Base Network Monitor',
   description: 'Real-time health and uptime dashboard for the Base blockchain network.',
   icons: { icon: '/favicon.ico' },
+  other: {
+    'base:app_id': '69f214dd60934e840dedaad8',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-[#F8FAFF] antialiased">
-        {children}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#fff',
-              color: '#0f172a',
-              border: '1px solid rgba(0,82,255,0.15)',
-              borderRadius: '12px',
-              boxShadow: '0 4px 24px -4px rgba(0,82,255,0.15)',
-              fontFamily: 'var(--font-inter)',
-              fontSize: '14px',
-            },
-          }}
-        />
-      </body>
-    </html>
-  );
-}
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>\n      <body className="min-h-screen bg-[#F8FAFF] antialiased">\n        {children}\n        <Toaster\n          position="top-right"\n          toastOptions={{\n            duration: 4000,\n            style: {\n              background: '#fff',\n              color: '#0f172a',\n              border: '1px solid rgba(0,82,255,0.15)',\n              borderRadius: '12px',\n              boxShadow: '0 4px 24px -4px rgba(0,82,255,0.15)',\n              fontFamily: 'var(--font-inter)',\n              fontSize: '14px',\n            },\n          }}\n        />\n      </body>\n    </html>\n  );\n}
